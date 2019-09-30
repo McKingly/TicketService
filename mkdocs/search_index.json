@@ -2,13 +2,13 @@
     "docs": [
         {
             "location": "/",
-            "text": "Welcome to MkDocs\n\n\nFor full documentation visit \nmkdocs.org\n.\n\n\nCommands\n\n\n\n\nmkdocs new [dir-name]\n - Create a new project.\n\n\nmkdocs serve\n - Start the live-reloading docs server.\n\n\nmkdocs build\n - Build the documentation site.\n\n\nmkdocs help\n - Print this help message.\n\n\n\n\nProject layout\n\n\nmkdocs.yml    # The configuration file.\ndocs/\n    index.md  # The documentation homepage.\n    ...       # Other markdown pages, images and other files.",
+            "text": "Overview\n\n\nTicket Service aims to provide an easy to use service for the creation and authetication of tickets.\n\n\nCommands\n\n\n\n\nmkdocs new [dir-name]\n - Create a new project.\n\n\nmkdocs serve\n - Start the live-reloading docs server.\n\n\nmkdocs build\n - Build the documentation site.\n\n\nmkdocs help\n - Print this help message.\n\n\n\n\nProject layout\n\n\nmkdocs.yml    # The configuration file.\ndocs/\n    index.md  # The documentation homepage.\n    ...       # Other markdown pages, images and other files.",
             "title": "Home"
         },
         {
-            "location": "/#welcome-to-mkdocs",
-            "text": "For full documentation visit  mkdocs.org .",
-            "title": "Welcome to MkDocs"
+            "location": "/#overview",
+            "text": "Ticket Service aims to provide an easy to use service for the creation and authetication of tickets.",
+            "title": "Overview"
         },
         {
             "location": "/#commands",
@@ -39,6 +39,56 @@
             "location": "/about/#pascas-virga-nec-tumulo-quibus-aesculeae",
             "text": "Ferre fecit, et unda sed mea secum semel nunc nata non quidem comas fulvum\namore. Deploravit erat quaeque hanc  Idan da  floresque quia captae aequora ad addit ut cecinisse  negat: saucius sequentia carpere! Labore nec labori Argum\nplaceat aethere generis Pirenidas fretum sibi; ulla domui, visum. Nunc rogumque\nhostile, quos  et conscia hosti  cineres volucrem  fiunt,  Dianae aequoris\ninmensa  has imago ense cornu emicat!  dotScreenshotWais -= browser_dial_rate;\ninternalLion = vector_clip_widget - device.zeroDefragmentSmartphone(\n        bugSinkError.hibernate(vector_unix_heat), cpsClipboard, deleteFifo(\n        wysiwyg));\nvar riscResolution = kbps_and - menu;\nif (daw - title_unfriend_laptop) {\n    wamp = linkFloppy - 6;\n}  Numquam pectoraque citharam omnes et modo ingenium, tanto opus quam. Illo\npoenae. Tam tanta fata exanimes et dabitis, quem Turnus, cum exclamat volet:\nfrustra adnuerant. Et haerent  nectar oscula \npronus.  Tempore Euboicus quid, fuga prior factus valens precantum in avis, creat\ncertamina venerisque gerit veniat, Cyllenius! Qualem nos piget sedilia fixa:\ndiluvio: senectus: in suaque tellus tangit. Ubi vita non virgas, inmensum est\nfortiter, tu Memnonis, ex undas dextra pomoque externos.",
             "title": "Pascas virga nec tumulo quibus aesculeae"
+        },
+        {
+            "location": "/user-guide/",
+            "text": "User Guide\n\n\nCreate Ticket\n\n\nThe service receives information and uses it to create a ticket. To do this a valid payment receipt has to be sent to the service.\n\n\nThe ticket is returned to the client and a new block is added to the blockchain.\n\n\nGET /ticket/creation/\n\n\n\n\nRequest\n\n\nContent-type: application/json\n\n\n\n\n{\n    \"user_id\": 0,\n    \"transaction_id\": 0,\n    \"details\": {\n        \"purpose\": \"string\",\n        \"time\": \"string\"\n    },\n    \"secret\": \"string\"\n}\n\n\n\n\n\n\n\n\n\n\nField\n\n\nDescription\n\n\nType\n\n\n\n\n\n\n\n\n\n\nuser_id\n\n\nUser id number\n\n\nInteger\n\n\n\n\n\n\ntransaction_id\n\n\nTransaction id number\n\n\nInteger\n\n\n\n\n\n\ndetails\n\n\nAditional information about the ticket\n\n\nObject\n\n\n\n\n\n\nsecret\n\n\nValue to use when creating the hash\n\n\nString\n\n\n\n\n\n\n\n\nResponse\n\n\nIf successful, the response body contains a newly created instance of Ticket.\n\n\nContent-type: application/json\n\n\n\n\n{\n    \"ticket_id\": 0,\n    \"user_id\": 0,\n    \"timestamp\": \"string\",\n    \"details\": {\n        \"purpose\": \"string\",\n        \"time\": \"string\"\n    },\n    \"status\": \"string\",\n    \"hash\": \"string\"\n}\n\n\n\n\n\n\n\n\n\n\nField\n\n\nMeaning\n\n\nType\n\n\n\n\n\n\n\n\n\n\nticket_id\n\n\nTicket id number\n\n\nInteger\n\n\n\n\n\n\nuser_id\n\n\nUser id number\n\n\nInteger\n\n\n\n\n\n\ntimestamp\n\n\nTimestamp for when the ticket was created\n\n\nDate\n\n\n\n\n\n\ndetails\n\n\nAditional information about the ticket\n\n\nObject\n\n\n\n\n\n\nstatus\n\n\nSpecifies if the ticket is disabled, validated or expired\n\n\nString\n\n\n\n\n\n\nhash\n\n\nHash to check ticket integraty\n\n\nString\n\n\n\n\n\n\n\n\nView Ticket\n\n\nReturn specific ticket information.\n\n\nList Tickets\n\n\nReturn list of tickets belonging to the user validated or to be validated.\n\n\nValidate Ticket\n\n\nThe service extracts the ticket information from a QR code, checks to see if the integrity of the ticket is valid through the hash and returns a response based on the ticket's status. \n\n\nIf it hasn't been validated yet a new block will be added to the blockchain using the updated ticket information. If the ticket has already been validated no new block will be added.\n\n\nPUT /ticket/validate/\n\n\n\n\nRequest\n\n\nContent-type: application/json\n\n\n\n\n{\n    \"ticket_id\": 0,\n    \"user_id\": 0,\n    \"timestamp\": \"string\",\n    \"details\": {\n        \"purpose\": \"string\",\n        \"time\": \"string\"\n    },\n    \"status\": \"string\",\n    \"hash\": \"string\"\n}\n\n\n\n\n\n\n\n\n\n\nField\n\n\nMeaning\n\n\nType\n\n\n\n\n\n\n\n\n\n\nticket_id\n\n\nTicket id number\n\n\nInteger\n\n\n\n\n\n\nuser_id\n\n\nUser id number\n\n\nInteger\n\n\n\n\n\n\ntimestamp\n\n\nTimestamp for when the ticket was created\n\n\nDate\n\n\n\n\n\n\ndetails\n\n\nAditional information about the ticket\n\n\nObject\n\n\n\n\n\n\nstatus\n\n\nSpecifies if the ticket is disabled, validated or expired\n\n\nString\n\n\n\n\n\n\nhash\n\n\nHash to check ticket integraty\n\n\nString\n\n\n\n\n\n\n\n\nResponse\n\n\nIf successful, the response body contains an updated instance of ticket with a new status value.\n\n\nContent-type: application/json\n\n\n\n\n{\n    \"ticket_id\": 0,\n    \"user_id\": 0,\n    \"timestamp\": \"string\",\n    \"details\": {\n        \"purpose\": \"string\",\n        \"time\": \"string\"\n    },\n    \"status\": \"string\",\n    \"hash\": \"string\"\n}\n\n\n\n\n\n\n\n\n\n\nField\n\n\nMeaning\n\n\nType\n\n\n\n\n\n\n\n\n\n\nticket_id\n\n\nTicket id number\n\n\nInteger\n\n\n\n\n\n\nuser_id\n\n\nUser id number\n\n\nInteger\n\n\n\n\n\n\ntimestamp\n\n\nTimestamp for when the ticket was created\n\n\nDate\n\n\n\n\n\n\ndetails\n\n\nAditional information about the ticket\n\n\nObject\n\n\n\n\n\n\nstatus\n\n\nSpecifies if the ticket is disabled, validated or expired\n\n\nString\n\n\n\n\n\n\nhash\n\n\nHash to check ticket integraty\n\n\nString",
+            "title": "User guide"
+        },
+        {
+            "location": "/user-guide/#user-guide",
+            "text": "",
+            "title": "User Guide"
+        },
+        {
+            "location": "/user-guide/#create-ticket",
+            "text": "The service receives information and uses it to create a ticket. To do this a valid payment receipt has to be sent to the service.  The ticket is returned to the client and a new block is added to the blockchain.  GET /ticket/creation/",
+            "title": "Create Ticket"
+        },
+        {
+            "location": "/user-guide/#request",
+            "text": "Content-type: application/json  {\n    \"user_id\": 0,\n    \"transaction_id\": 0,\n    \"details\": {\n        \"purpose\": \"string\",\n        \"time\": \"string\"\n    },\n    \"secret\": \"string\"\n}     Field  Description  Type      user_id  User id number  Integer    transaction_id  Transaction id number  Integer    details  Aditional information about the ticket  Object    secret  Value to use when creating the hash  String",
+            "title": "Request"
+        },
+        {
+            "location": "/user-guide/#response",
+            "text": "If successful, the response body contains a newly created instance of Ticket.  Content-type: application/json  {\n    \"ticket_id\": 0,\n    \"user_id\": 0,\n    \"timestamp\": \"string\",\n    \"details\": {\n        \"purpose\": \"string\",\n        \"time\": \"string\"\n    },\n    \"status\": \"string\",\n    \"hash\": \"string\"\n}     Field  Meaning  Type      ticket_id  Ticket id number  Integer    user_id  User id number  Integer    timestamp  Timestamp for when the ticket was created  Date    details  Aditional information about the ticket  Object    status  Specifies if the ticket is disabled, validated or expired  String    hash  Hash to check ticket integraty  String",
+            "title": "Response"
+        },
+        {
+            "location": "/user-guide/#view-ticket",
+            "text": "Return specific ticket information.",
+            "title": "View Ticket"
+        },
+        {
+            "location": "/user-guide/#list-tickets",
+            "text": "Return list of tickets belonging to the user validated or to be validated.",
+            "title": "List Tickets"
+        },
+        {
+            "location": "/user-guide/#validate-ticket",
+            "text": "The service extracts the ticket information from a QR code, checks to see if the integrity of the ticket is valid through the hash and returns a response based on the ticket's status.   If it hasn't been validated yet a new block will be added to the blockchain using the updated ticket information. If the ticket has already been validated no new block will be added.  PUT /ticket/validate/",
+            "title": "Validate Ticket"
+        },
+        {
+            "location": "/user-guide/#request_1",
+            "text": "Content-type: application/json  {\n    \"ticket_id\": 0,\n    \"user_id\": 0,\n    \"timestamp\": \"string\",\n    \"details\": {\n        \"purpose\": \"string\",\n        \"time\": \"string\"\n    },\n    \"status\": \"string\",\n    \"hash\": \"string\"\n}     Field  Meaning  Type      ticket_id  Ticket id number  Integer    user_id  User id number  Integer    timestamp  Timestamp for when the ticket was created  Date    details  Aditional information about the ticket  Object    status  Specifies if the ticket is disabled, validated or expired  String    hash  Hash to check ticket integraty  String",
+            "title": "Request"
+        },
+        {
+            "location": "/user-guide/#response_1",
+            "text": "If successful, the response body contains an updated instance of ticket with a new status value.  Content-type: application/json  {\n    \"ticket_id\": 0,\n    \"user_id\": 0,\n    \"timestamp\": \"string\",\n    \"details\": {\n        \"purpose\": \"string\",\n        \"time\": \"string\"\n    },\n    \"status\": \"string\",\n    \"hash\": \"string\"\n}     Field  Meaning  Type      ticket_id  Ticket id number  Integer    user_id  User id number  Integer    timestamp  Timestamp for when the ticket was created  Date    details  Aditional information about the ticket  Object    status  Specifies if the ticket is disabled, validated or expired  String    hash  Hash to check ticket integraty  String",
+            "title": "Response"
         }
     ]
 }

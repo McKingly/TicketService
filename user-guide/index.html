@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>User guide - Ticket Service</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="../css/highlight.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "User guide";
+    var mkdocs_page_input_path = "user-guide.md";
+    var mkdocs_page_url = "/user-guide/";
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js"></script>
+  <script src="../js/modernizr-2.8.3.min.js"></script>
+  <script type="text/javascript" src="../js/highlight.pack.js"></script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Ticket Service</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="..">Home</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../about/">About</a>
+	    </li>
+          
+            <li class="toctree-l1 current">
+		
+    <a class="current" href="./">User guide</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l2"><a href="#user-guide">User Guide</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l3" href="#create-ticket">Create Ticket</a></li>
+        
+            <li><a class="toctree-l3" href="#view-ticket">View Ticket</a></li>
+        
+            <li><a class="toctree-l3" href="#list-tickets">List Tickets</a></li>
+        
+            <li><a class="toctree-l3" href="#validate-ticket">Validate Ticket</a></li>
+        
+        </ul>
+    
+
+    </ul>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Ticket Service</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>User guide</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/McKingly/TicketService/edit/master/docs/user-guide.md"
+          class="icon icon-github"> Edit on GitHub</a>
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="user-guide">User Guide</h1>
+<h2 id="create-ticket">Create Ticket</h2>
+<p>The service receives information and uses it to create a ticket. To do this a valid payment receipt has to be sent to the service.</p>
+<p>The ticket is returned to the client and a new block is added to the blockchain.</p>
+<pre><code>GET /ticket/creation/
+</code></pre>
+
+<h3 id="request">Request</h3>
+<pre><code>Content-type: application/json
+</code></pre>
+
+<pre><code class="json">{
+    &quot;user_id&quot;: 0,
+    &quot;transaction_id&quot;: 0,
+    &quot;details&quot;: {
+        &quot;purpose&quot;: &quot;string&quot;,
+        &quot;time&quot;: &quot;string&quot;
+    },
+    &quot;secret&quot;: &quot;string&quot;
+}
+</code></pre>
+
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>user_id</td>
+<td>User id number</td>
+<td>Integer</td>
+</tr>
+<tr>
+<td>transaction_id</td>
+<td>Transaction id number</td>
+<td>Integer</td>
+</tr>
+<tr>
+<td>details</td>
+<td>Aditional information about the ticket</td>
+<td>Object</td>
+</tr>
+<tr>
+<td>secret</td>
+<td>Value to use when creating the hash</td>
+<td>String</td>
+</tr>
+</tbody>
+</table>
+<h3 id="response">Response</h3>
+<p>If successful, the response body contains a newly created instance of Ticket.</p>
+<pre><code>Content-type: application/json
+</code></pre>
+
+<pre><code class="json">{
+    &quot;ticket_id&quot;: 0,
+    &quot;user_id&quot;: 0,
+    &quot;timestamp&quot;: &quot;string&quot;,
+    &quot;details&quot;: {
+        &quot;purpose&quot;: &quot;string&quot;,
+        &quot;time&quot;: &quot;string&quot;
+    },
+    &quot;status&quot;: &quot;string&quot;,
+    &quot;hash&quot;: &quot;string&quot;
+}
+</code></pre>
+
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Meaning</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ticket_id</td>
+<td>Ticket id number</td>
+<td>Integer</td>
+</tr>
+<tr>
+<td>user_id</td>
+<td>User id number</td>
+<td>Integer</td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>Timestamp for when the ticket was created</td>
+<td>Date</td>
+</tr>
+<tr>
+<td>details</td>
+<td>Aditional information about the ticket</td>
+<td>Object</td>
+</tr>
+<tr>
+<td>status</td>
+<td>Specifies if the ticket is disabled, validated or expired</td>
+<td>String</td>
+</tr>
+<tr>
+<td>hash</td>
+<td>Hash to check ticket integraty</td>
+<td>String</td>
+</tr>
+</tbody>
+</table>
+<h2 id="view-ticket">View Ticket</h2>
+<p>Return specific ticket information.</p>
+<h2 id="list-tickets">List Tickets</h2>
+<p>Return list of tickets belonging to the user validated or to be validated.</p>
+<h2 id="validate-ticket">Validate Ticket</h2>
+<p>The service extracts the ticket information from a QR code, checks to see if the integrity of the ticket is valid through the hash and returns a response based on the ticket's status. </p>
+<p>If it hasn't been validated yet a new block will be added to the blockchain using the updated ticket information. If the ticket has already been validated no new block will be added.</p>
+<pre><code>PUT /ticket/validate/
+</code></pre>
+
+<h3 id="request_1">Request</h3>
+<pre><code>Content-type: application/json
+</code></pre>
+
+<pre><code class="json">{
+    &quot;ticket_id&quot;: 0,
+    &quot;user_id&quot;: 0,
+    &quot;timestamp&quot;: &quot;string&quot;,
+    &quot;details&quot;: {
+        &quot;purpose&quot;: &quot;string&quot;,
+        &quot;time&quot;: &quot;string&quot;
+    },
+    &quot;status&quot;: &quot;string&quot;,
+    &quot;hash&quot;: &quot;string&quot;
+}
+</code></pre>
+
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Meaning</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ticket_id</td>
+<td>Ticket id number</td>
+<td>Integer</td>
+</tr>
+<tr>
+<td>user_id</td>
+<td>User id number</td>
+<td>Integer</td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>Timestamp for when the ticket was created</td>
+<td>Date</td>
+</tr>
+<tr>
+<td>details</td>
+<td>Aditional information about the ticket</td>
+<td>Object</td>
+</tr>
+<tr>
+<td>status</td>
+<td>Specifies if the ticket is disabled, validated or expired</td>
+<td>String</td>
+</tr>
+<tr>
+<td>hash</td>
+<td>Hash to check ticket integraty</td>
+<td>String</td>
+</tr>
+</tbody>
+</table>
+<h3 id="response_1">Response</h3>
+<p>If successful, the response body contains an updated instance of ticket with a new status value.</p>
+<pre><code>Content-type: application/json
+</code></pre>
+
+<pre><code class="json">{
+    &quot;ticket_id&quot;: 0,
+    &quot;user_id&quot;: 0,
+    &quot;timestamp&quot;: &quot;string&quot;,
+    &quot;details&quot;: {
+        &quot;purpose&quot;: &quot;string&quot;,
+        &quot;time&quot;: &quot;string&quot;
+    },
+    &quot;status&quot;: &quot;string&quot;,
+    &quot;hash&quot;: &quot;string&quot;
+}
+</code></pre>
+
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Meaning</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ticket_id</td>
+<td>Ticket id number</td>
+<td>Integer</td>
+</tr>
+<tr>
+<td>user_id</td>
+<td>User id number</td>
+<td>Integer</td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>Timestamp for when the ticket was created</td>
+<td>Date</td>
+</tr>
+<tr>
+<td>details</td>
+<td>Aditional information about the ticket</td>
+<td>Object</td>
+</tr>
+<tr>
+<td>status</td>
+<td>Specifies if the ticket is disabled, validated or expired</td>
+<td>String</td>
+</tr>
+<tr>
+<td>hash</td>
+<td>Hash to check ticket integraty</td>
+<td>String</td>
+</tr>
+</tbody>
+</table>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="../about/" class="btn btn-neutral" title="About"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+	  
+        </div>
+      </div>
+
+    </section>
+    
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+          <a href="https://github.com/McKingly/TicketService" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
+      
+      
+        <span><a href="../about/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+    </span>
+</div>
+    <script src="../js/theme.js"></script>
+
+</body>
+</html>
