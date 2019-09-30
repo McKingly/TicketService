@@ -1,0 +1,44 @@
+{
+    "docs": [
+        {
+            "location": "/",
+            "text": "Welcome to MkDocs\n\n\nFor full documentation visit \nmkdocs.org\n.\n\n\nCommands\n\n\n\n\nmkdocs new [dir-name]\n - Create a new project.\n\n\nmkdocs serve\n - Start the live-reloading docs server.\n\n\nmkdocs build\n - Build the documentation site.\n\n\nmkdocs help\n - Print this help message.\n\n\n\n\nProject layout\n\n\nmkdocs.yml    # The configuration file.\ndocs/\n    index.md  # The documentation homepage.\n    ...       # Other markdown pages, images and other files.",
+            "title": "Home"
+        },
+        {
+            "location": "/#welcome-to-mkdocs",
+            "text": "For full documentation visit  mkdocs.org .",
+            "title": "Welcome to MkDocs"
+        },
+        {
+            "location": "/#commands",
+            "text": "mkdocs new [dir-name]  - Create a new project.  mkdocs serve  - Start the live-reloading docs server.  mkdocs build  - Build the documentation site.  mkdocs help  - Print this help message.",
+            "title": "Commands"
+        },
+        {
+            "location": "/#project-layout",
+            "text": "mkdocs.yml    # The configuration file.\ndocs/\n    index.md  # The documentation homepage.\n    ...       # Other markdown pages, images and other files.",
+            "title": "Project layout"
+        },
+        {
+            "location": "/about/",
+            "text": "Vidisset ante qui spectans fortes petitur\n\n\nVirago sibi foedera inquit\n\n\nLorem markdownum illic obstipuit sacra submisso Perseus hastam castris, ambae,\nne quae astra est illinc putat sonantibus parva. Operosae extremas Iuppiter\nvolat placetque \ntristis\n, corripe perdis iacebat. Aethera Eurynomus coercuit\nquos, ait sed auxilium, non eumque, humanam pro ipsos.\n\n\nif (acl_balancing) {\n    virus_warm_keyboard = 91;\n    switch_key_dslam.online(multitasking);\n    printer_engine_page(348956, -2, adRepeaterSpoofing);\n}\ntoolbar *= wpaDesktop;\nif (1 - bandwidthHost > interface_analyst) {\n    petabyte(cacheThickExtranet.sectorMipsIpod(personal), plug_hard,\n            publicCpuTroll + raw);\n    start = smm_metadata;\n} else {\n    and_metadata.metaCardAsp = 1;\n}\nif (myspace_windows_jsp(vectorIpv(gbps_firmware_lifo), nasUnmountParity)) {\n    webCad = carrierPower(captcha);\n    scriptBrouterRaw *= source;\n}\nrw += imap_firewire(92 + popInput + tft_png - 33, nocFrequency - 720999 -\n        scanner);\n\n\n\nDum nisi vindicta alii, numina serpens puerilibus mihi oculosque nubibus! Videre\ncum edentem \nmedios sevocat\n si esse. De aliter ultima, est convicia, factus\n\nstellarum\n te \nrogat capillos\n? Habes\n\nstetit\n illa, donec cursu igitur, est aequora gener repurgato omnes.\n\n\nPascas virga nec tumulo quibus aesculeae\n\n\nFerre fecit, et unda sed mea secum semel nunc nata non quidem comas fulvum\namore. Deploravit erat quaeque hanc \nIdan da\n floresque quia captae aequora ad\n\naddit ut cecinisse\n negat: saucius sequentia carpere! Labore nec labori Argum\nplaceat aethere generis Pirenidas fretum sibi; ulla domui, visum. Nunc rogumque\nhostile, quos \net conscia hosti\n cineres\n\nvolucrem\n fiunt, \nDianae aequoris\ninmensa\n has imago ense cornu emicat!\n\n\ndotScreenshotWais -= browser_dial_rate;\ninternalLion = vector_clip_widget - device.zeroDefragmentSmartphone(\n        bugSinkError.hibernate(vector_unix_heat), cpsClipboard, deleteFifo(\n        wysiwyg));\nvar riscResolution = kbps_and - menu;\nif (daw - title_unfriend_laptop) {\n    wamp = linkFloppy - 6;\n}\n\n\n\nNumquam pectoraque citharam omnes et modo ingenium, tanto opus quam. Illo\npoenae. Tam tanta fata exanimes et dabitis, quem Turnus, cum exclamat volet:\nfrustra adnuerant. Et haerent \nnectar oscula\n\npronus.\n\n\nTempore Euboicus quid, fuga prior factus valens precantum in avis, creat\ncertamina venerisque gerit veniat, Cyllenius! Qualem nos piget sedilia fixa:\ndiluvio: senectus: in suaque tellus tangit. Ubi vita non virgas, inmensum est\nfortiter, tu Memnonis, ex undas dextra pomoque externos.",
+            "title": "About"
+        },
+        {
+            "location": "/about/#vidisset-ante-qui-spectans-fortes-petitur",
+            "text": "",
+            "title": "Vidisset ante qui spectans fortes petitur"
+        },
+        {
+            "location": "/about/#virago-sibi-foedera-inquit",
+            "text": "Lorem markdownum illic obstipuit sacra submisso Perseus hastam castris, ambae,\nne quae astra est illinc putat sonantibus parva. Operosae extremas Iuppiter\nvolat placetque  tristis , corripe perdis iacebat. Aethera Eurynomus coercuit\nquos, ait sed auxilium, non eumque, humanam pro ipsos.  if (acl_balancing) {\n    virus_warm_keyboard = 91;\n    switch_key_dslam.online(multitasking);\n    printer_engine_page(348956, -2, adRepeaterSpoofing);\n}\ntoolbar *= wpaDesktop;\nif (1 - bandwidthHost > interface_analyst) {\n    petabyte(cacheThickExtranet.sectorMipsIpod(personal), plug_hard,\n            publicCpuTroll + raw);\n    start = smm_metadata;\n} else {\n    and_metadata.metaCardAsp = 1;\n}\nif (myspace_windows_jsp(vectorIpv(gbps_firmware_lifo), nasUnmountParity)) {\n    webCad = carrierPower(captcha);\n    scriptBrouterRaw *= source;\n}\nrw += imap_firewire(92 + popInput + tft_png - 33, nocFrequency - 720999 -\n        scanner);  Dum nisi vindicta alii, numina serpens puerilibus mihi oculosque nubibus! Videre\ncum edentem  medios sevocat  si esse. De aliter ultima, est convicia, factus stellarum  te  rogat capillos ? Habes stetit  illa, donec cursu igitur, est aequora gener repurgato omnes.",
+            "title": "Virago sibi foedera inquit"
+        },
+        {
+            "location": "/about/#pascas-virga-nec-tumulo-quibus-aesculeae",
+            "text": "Ferre fecit, et unda sed mea secum semel nunc nata non quidem comas fulvum\namore. Deploravit erat quaeque hanc  Idan da  floresque quia captae aequora ad addit ut cecinisse  negat: saucius sequentia carpere! Labore nec labori Argum\nplaceat aethere generis Pirenidas fretum sibi; ulla domui, visum. Nunc rogumque\nhostile, quos  et conscia hosti  cineres volucrem  fiunt,  Dianae aequoris\ninmensa  has imago ense cornu emicat!  dotScreenshotWais -= browser_dial_rate;\ninternalLion = vector_clip_widget - device.zeroDefragmentSmartphone(\n        bugSinkError.hibernate(vector_unix_heat), cpsClipboard, deleteFifo(\n        wysiwyg));\nvar riscResolution = kbps_and - menu;\nif (daw - title_unfriend_laptop) {\n    wamp = linkFloppy - 6;\n}  Numquam pectoraque citharam omnes et modo ingenium, tanto opus quam. Illo\npoenae. Tam tanta fata exanimes et dabitis, quem Turnus, cum exclamat volet:\nfrustra adnuerant. Et haerent  nectar oscula \npronus.  Tempore Euboicus quid, fuga prior factus valens precantum in avis, creat\ncertamina venerisque gerit veniat, Cyllenius! Qualem nos piget sedilia fixa:\ndiluvio: senectus: in suaque tellus tangit. Ubi vita non virgas, inmensum est\nfortiter, tu Memnonis, ex undas dextra pomoque externos.",
+            "title": "Pascas virga nec tumulo quibus aesculeae"
+        }
+    ]
+}
