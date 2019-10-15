@@ -125,7 +125,7 @@
                 <h2 id="create-ticket">Create Ticket</h2>
 <p>The service receives information and uses it to create a ticket. To do this a valid payment receipt has to be sent to the service.</p>
 <p>The ticket is returned to the client and a new block is added to the blockchain.</p>
-<pre><code>GET /ticket/createTicket
+<pre><code>GET /TicketGenerator/createTicket
 </code></pre>
 
 <h3 id="request">Request</h3>
@@ -224,7 +224,7 @@
 <h2 id="validate-ticket">Validate Ticket</h2>
 <p>The service extracts the ticket information from a QR code, checks to see if the integrity of the ticket is valid through the hash and returns a response based on the ticket's status. </p>
 <p>If it hasn't been validated yet a new block will be added to the blockchain using the updated ticket information. If the ticket has already been validated no new block will be added.</p>
-<pre><code>PUT /ticket/validate/
+<pre><code>PUT /TicketGenerator/validateTicket
 </code></pre>
 
 <h3 id="request_1">Request</h3>
