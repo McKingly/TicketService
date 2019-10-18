@@ -3,6 +3,7 @@ package io.swagger.api;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -20,6 +21,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import io.swagger.Auxiliary;
 import io.swagger.annotations.ApiParam;
 import io.swagger.model.Ticket;
 import io.swagger.model.TicketCreation;
@@ -61,39 +63,35 @@ public class CreateTicketApiController implements CreateTicketApi {
                 out.flush();
 
                 digest.update(byteOut.toByteArray());
-      
+                
+                int id = 45;
+                digest.update(ByteBuffer.allocate(4).putInt(id).array());
+
+                String timestamp = OffsetDateTime.now().toString();
+                digest.update(timestamp.getBytes());
+                
+                String status = "inactive";
+                digest.update(status.getBytes());
+
                 byte[] encodedhash = digest.digest();
 
                 return new ResponseEntity<Ticket>(
                     objectMapper.readValue("{ \"details\" : " + body.getDetails() + 
-                        ", \"ticket_id\" : 0"+
-                        ", \"hash\" : \""+bytesToHex(encodedhash)+"\""+
-                        ", \"timestamp\" : \""+ OffsetDateTime.now().toString()+"\""+
-                        ", \"status\" : \"inactive\""+
+                        ", \"ticket_id\" : \"" + id + "\"" +
+                        ", \"timestamp\" : \""+ timestamp + "\"" +
+                        ", \"status\" : \"" + status + "\"" +
+                        ", \"hash\" : \"" + Auxiliary.bytesToHex(encodedhash) + "\"" +
                         "}",Ticket.class), HttpStatus.CREATED);
 
             } catch (IOException e) {
                 log.error("Couldn't serialize response for content type application/json", e);
                 return new ResponseEntity<Ticket>(HttpStatus.INTERNAL_SERVER_ERROR);
+
             } catch (NoSuchAlgorithmException e) {
-                // TODO Auto-generated catch block
                 log.error("Hash generation problem", e);
                 return new ResponseEntity<Ticket>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
-        System.out.println("Testing");
         return new ResponseEntity<Ticket>(HttpStatus.NOT_IMPLEMENTED);
     }
-
-    //REMOVE FUNCTION FROM THIS PLACE
-    private static String bytesToHex(byte[] hash) {
-        StringBuffer hexString = new StringBuffer();
-        for (int i = 0; i < hash.length; i++) {
-        String hex = Integer.toHexString(0xff & hash[i]);
-        if(hex.length() == 1) hexString.append('0');
-            hexString.append(hex);
-        }
-        return hexString.toString();
-    }
-
 }
