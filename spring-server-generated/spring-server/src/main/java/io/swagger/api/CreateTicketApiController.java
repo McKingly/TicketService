@@ -1,25 +1,5 @@
 package io.swagger.api;
 
-import io.swagger.model.Ticket;
-import io.swagger.model.TicketCreation;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import io.swagger.annotations.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.multipart.MultipartFile;
-
-import javax.validation.constraints.*;
-import javax.validation.Valid;
-import javax.servlet.http.HttpServletRequest;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -27,8 +7,24 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
+
+import io.swagger.annotations.ApiParam;
+import io.swagger.model.Ticket;
+import io.swagger.model.TicketCreation;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-10-14T21:38:57.474Z")
 
@@ -55,6 +51,7 @@ public class CreateTicketApiController implements CreateTicketApi {
             MessageDigest digest;
 
             try {
+                
                 digest = MessageDigest.getInstance("SHA-256");
                 digest.update(salt);
 
@@ -66,9 +63,16 @@ public class CreateTicketApiController implements CreateTicketApi {
                 digest.update(byteOut.toByteArray());
       
                 byte[] encodedhash = digest.digest();
-                /*+new Timestamp(new Date().getTime()).toString()+*/
-                return new ResponseEntity<Ticket>(objectMapper.readValue("{  \"details\" : { "+body.getDetails()+"},  \"ticket_id\" : 0,  \"hash\" : \""+bytesToHex(encodedhash)+"\",\"timestamp\" : \"2019-10-14T10:03:57.756Z\",\"status\" : \"inactive\"}",
-                        Ticket.class), HttpStatus.CREATED);
+                //System.out.println(new Timestamp(new Date().getTime()).toString());
+
+                return new ResponseEntity<Ticket>(
+                    objectMapper.readValue("{ \"details\" : " + body.getDetails() + 
+                        ", \"ticket_id\" : 0"+
+                        ", \"hash\" : \""+bytesToHex(encodedhash)+"\" "+
+                        ", \"timestamp\" : \""+ new Timestamp(new Date().getTime()).toString()+"\""+
+                        ", \"status\" : \"inactive\""
+                        +"}",Ticket.class), HttpStatus.CREATED);
+
             } catch (IOException e) {
                 log.error("Couldn't serialize response for content type application/json", e);
                 return new ResponseEntity<Ticket>(HttpStatus.INTERNAL_SERVER_ERROR);

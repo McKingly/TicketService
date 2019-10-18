@@ -1,11 +1,10 @@
 package io.swagger.model;
 
-import java.util.Objects;
 import java.util.HashMap;
-import java.util.Map;
+import java.util.Objects;
+
+import org.json.simple.JSONObject;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
 
 /**
  * Details
@@ -33,21 +32,7 @@ public class Details extends HashMap<String, String>  {
 
   @Override
   public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("\n");
-    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
-    return sb.toString();
-  }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(java.lang.Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return new JSONObject(this).toString();
   }
 }
 
