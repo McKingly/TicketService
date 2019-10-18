@@ -6,9 +6,7 @@ import java.io.ObjectOutputStream;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.OffsetDateTime;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -45,7 +43,9 @@ public class CreateTicketApiController implements CreateTicketApi {
 
     public ResponseEntity<Ticket> createTicket(
             @ApiParam(value = "Ticket information needed to create a ticket", required = true) @Valid @RequestBody TicketCreation body) {
+        
         String accept = request.getHeader("Accept");
+        
         if (accept != null && accept.contains("application/json")) {
             byte[] salt = body.getSecret().getBytes(StandardCharsets.UTF_8);
             MessageDigest digest;
@@ -63,15 +63,14 @@ public class CreateTicketApiController implements CreateTicketApi {
                 digest.update(byteOut.toByteArray());
       
                 byte[] encodedhash = digest.digest();
-                //System.out.println(new Timestamp(new Date().getTime()).toString());
 
                 return new ResponseEntity<Ticket>(
                     objectMapper.readValue("{ \"details\" : " + body.getDetails() + 
                         ", \"ticket_id\" : 0"+
-                        ", \"hash\" : \""+bytesToHex(encodedhash)+"\" "+
-                        ", \"timestamp\" : \""+ new Timestamp(new Date().getTime()).toString()+"\""+
-                        ", \"status\" : \"inactive\""
-                        +"}",Ticket.class), HttpStatus.CREATED);
+                        ", \"hash\" : \""+bytesToHex(encodedhash)+"\""+
+                        ", \"timestamp\" : \""+ OffsetDateTime.now().toString()+"\""+
+                        ", \"status\" : \"inactive\""+
+                        "}",Ticket.class), HttpStatus.CREATED);
 
             } catch (IOException e) {
                 log.error("Couldn't serialize response for content type application/json", e);
