@@ -12,6 +12,7 @@ import java.time.OffsetDateTime;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.slf4j.Logger;
@@ -62,18 +63,27 @@ public class CreateTicketApiController implements CreateTicketApi {
                 out.writeObject(body.getDetails());
                 out.flush();
 
+                //System.out.println(Auxiliary.bytesToHex(byteOut.toByteArray()));
                 digest.update(byteOut.toByteArray());
                 
                 int id = 45;
                 digest.update(ByteBuffer.allocate(4).putInt(id).array());
 
                 String timestamp = OffsetDateTime.now().toString();
+                System.out.println(" \n Timestamp : "+timestamp);
+                //System.out.println(Auxiliary.bytesToHex(timestamp.getBytes()));
                 digest.update(timestamp.getBytes());
                 
                 String status = "inactive";
+                //System.out.println(" \n Status");
+                //System.out.println(Auxiliary.bytesToHex(status.getBytes()));
                 digest.update(status.getBytes());
 
                 byte[] encodedhash = digest.digest();
+                //System.out.println(" \n FINAL");
+                System.out.println(Auxiliary.bytesToHex(encodedhash));
+
+                objectMapper.configure(DeserializationFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE, false);
 
                 return new ResponseEntity<Ticket>(
                     objectMapper.readValue("{ \"details\" : " + body.getDetails() + 

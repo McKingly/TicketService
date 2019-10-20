@@ -154,7 +154,7 @@ public class ValidTicket   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(ticketId, timestamp, details, hash, status);
+    return Objects.hash(ticketId, timestamp, details, status);
   }
 
   @Override
