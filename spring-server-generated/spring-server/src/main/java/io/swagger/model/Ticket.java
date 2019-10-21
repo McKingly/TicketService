@@ -1,15 +1,18 @@
 package io.swagger.model;
 
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import io.swagger.model.Details;
-import org.threeten.bp.OffsetDateTime;
-import org.springframework.validation.annotation.Validated;
+
 import javax.validation.Valid;
-import javax.validation.constraints.*;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import org.springframework.validation.annotation.Validated;
+import org.threeten.bp.OffsetDateTime;
+
+import io.swagger.Auxiliary;
+import io.swagger.annotations.ApiModelProperty;
 
 /**
  * Ticket
@@ -17,7 +20,10 @@ import javax.validation.constraints.*;
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-10-14T21:38:57.474Z")
 
-public class Ticket   {
+public class Ticket {
+
+  private static Integer blockchainId = 0;
+
   @JsonProperty("ticket_id")
   private Integer ticketId = null;
 
@@ -30,11 +36,26 @@ public class Ticket   {
   @JsonProperty("hash")
   private String hash = null;
 
+  @JsonProperty("previousHash")
+  private String previousHash = null;
+
   @JsonProperty("status")
   private String status = null;
 
-  public Ticket ticketId(Integer ticketId) {
-    this.ticketId = ticketId;
+  public Ticket(Details details, String status, String previousHash, String secret)
+      throws NoSuchAlgorithmException, IOException {
+    this.ticketId = blockchainId++;
+    this.timestamp = OffsetDateTime.now();
+    this.details = details;
+    this.status = status;
+    this.previousHash = previousHash;
+    this.hash = Auxiliary.computeHash(this.ticketId, this.timestamp.toString(), details, status, previousHash, secret);
+  }
+
+  public Ticket(){}
+
+  public Ticket ticketId() {
+    this.ticketId = blockchainId++;
     return this;
   }
 
@@ -44,7 +65,6 @@ public class Ticket   {
   **/
   @ApiModelProperty(value = "")
 
-
   public Integer getTicketId() {
     return ticketId;
   }
@@ -52,6 +72,7 @@ public class Ticket   {
   public void setTicketId(Integer ticketId) {
     this.ticketId = ticketId;
   }
+
 
   public Ticket timestamp(OffsetDateTime timestamp) {
     this.timestamp = timestamp;
@@ -135,6 +156,22 @@ public class Ticket   {
     this.status = status;
   }
 
+  public Ticket previousHash(String previousHash){
+    this.previousHash = previousHash;
+    return this;
+  }
+  
+  public String getPreviousHash(){
+    return previousHash;
+  }
+
+  /**
+   * @param previousHash the previousHash to set
+   */
+  public void setPreviousHash(String previousHash) {
+    this.previousHash = previousHash;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -162,9 +199,10 @@ public class Ticket   {
     StringBuilder sb = new StringBuilder();
     sb.append(" \"ticketId\": \" ").append(toIndentedString(ticketId)).append("\"\n,");
     sb.append(" \"timestamp\": \" ").append(toIndentedString(timestamp)).append("\"\n,");
-    sb.append(" \"details\": { ").append(toIndentedString(details)).append("}\n,");
-    sb.append(" \"hash\": \" ").append(toIndentedString(hash)).append("\"\n,");
+    sb.append(" \"details\": ").append(toIndentedString(details)).append("\n,");
     sb.append(" \"status\": \" ").append(toIndentedString(status)).append("\"\n");
+    sb.append(" \"previousHash\": \" ").append(toIndentedString(previousHash)).append("\"\n");
+    sb.append(" \"hash\": \" ").append(toIndentedString(hash)).append("\"\n,");
     sb.append("}");
     return sb.toString();
   }

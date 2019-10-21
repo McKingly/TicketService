@@ -1,28 +1,22 @@
 package io.swagger.api;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.nio.ByteBuffer;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.time.OffsetDateTime;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import io.swagger.Auxiliary;
+import io.swagger.Blockchain;
 import io.swagger.annotations.ApiParam;
 import io.swagger.model.Ticket;
 import io.swagger.model.TicketCreation;
@@ -34,9 +28,12 @@ public class CreateTicketApiController implements CreateTicketApi {
 
     private static final Logger log = LoggerFactory.getLogger(CreateTicketApiController.class);
 
+    
     private final ObjectMapper objectMapper;
-
     private final HttpServletRequest request;
+
+    @Autowired
+    private Blockchain chain;
 
     @org.springframework.beans.factory.annotation.Autowired
     public CreateTicketApiController(ObjectMapper objectMapper, HttpServletRequest request) {
@@ -49,49 +46,15 @@ public class CreateTicketApiController implements CreateTicketApi {
         
         String accept = request.getHeader("Accept");
         
+        System.out.println(chain.toString());
+
         if (accept != null && accept.contains("application/json")) {
-            byte[] salt = body.getSecret().getBytes(StandardCharsets.UTF_8);
-            MessageDigest digest;
-
+           
             try {
-                
-                digest = MessageDigest.getInstance("SHA-256");
-                digest.update(salt);
-
-                ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
-                ObjectOutputStream out = new ObjectOutputStream(byteOut);
-                out.writeObject(body.getDetails());
-                out.flush();
-
-                //System.out.println(Auxiliary.bytesToHex(byteOut.toByteArray()));
-                digest.update(byteOut.toByteArray());
-                
-                int id = 45;
-                digest.update(ByteBuffer.allocate(4).putInt(id).array());
-
-                String timestamp = OffsetDateTime.now().toString();
-                System.out.println(" \n Timestamp : "+timestamp);
-                //System.out.println(Auxiliary.bytesToHex(timestamp.getBytes()));
-                digest.update(timestamp.getBytes());
-                
-                String status = "inactive";
-                //System.out.println(" \n Status");
-                //System.out.println(Auxiliary.bytesToHex(status.getBytes()));
-                digest.update(status.getBytes());
-
-                byte[] encodedhash = digest.digest();
-                //System.out.println(" \n FINAL");
-                System.out.println(Auxiliary.bytesToHex(encodedhash));
-
-                objectMapper.configure(DeserializationFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE, false);
-
-                return new ResponseEntity<Ticket>(
-                    objectMapper.readValue("{ \"details\" : " + body.getDetails() + 
-                        ", \"ticket_id\" : \"" + id + "\"" +
-                        ", \"timestamp\" : \""+ timestamp + "\"" +
-                        ", \"status\" : \"" + status + "\"" +
-                        ", \"hash\" : \"" + Auxiliary.bytesToHex(encodedhash) + "\"" +
-                        "}",Ticket.class), HttpStatus.CREATED);
+               
+                Ticket newTicket = new Ticket(body.getDetails(), "inactive", chain.getLatestBlockHash(), body.getSecret());
+                chain.addBlock(newTicket);
+                return new ResponseEntity<Ticket>( newTicket, HttpStatus.CREATED);
 
             } catch (IOException e) {
                 log.error("Couldn't serialize response for content type application/json", e);
