@@ -31,6 +31,8 @@
                 </executions>
             </plugin>
         </plugins>
+        <finalName>TicketService</finalName>
+        <JAR_FILE>./target/${project.build.finalName}.jar</JAR_FILE>
     </build>
     <dependencies>
         <dependency>

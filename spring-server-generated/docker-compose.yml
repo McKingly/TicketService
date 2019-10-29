@@ -1,0 +1,8 @@
+version: '2.1'
+
+services:
+  spring-server-generated:
+    image: spring-server-generated
+    build: .
+    ports:
+      - 8080:8080
