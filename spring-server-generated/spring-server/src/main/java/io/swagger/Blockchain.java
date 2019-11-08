@@ -5,8 +5,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.LinkedList;
 
 import org.springframework.stereotype.Component;
-import org.threeten.bp.OffsetDateTime;
-import org.threeten.bp.ZoneOffset;
 
 import io.swagger.model.Details;
 import io.swagger.model.Ticket;
@@ -41,6 +39,14 @@ public class Blockchain {
 
   public String getLatestBlockHash(){
     return chain.getLast().getHash();
+  }
+
+  public Ticket getLatestBlock(){
+    return chain.getLast();
+  }
+
+  public Ticket getBlock(int block_id){
+    return chain.get(block_id);    
   }
 
   public String toString(){

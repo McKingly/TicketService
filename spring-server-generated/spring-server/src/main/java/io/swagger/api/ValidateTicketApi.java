@@ -26,7 +26,7 @@ public interface ValidateTicketApi {
         @ApiResponse(code = 400, message = "Invalid request"),
         @ApiResponse(code = 404, message = "Invaled ticket"),
         @ApiResponse(code = 405, message = "Ticket expired") })
-    @RequestMapping(value = "/validateTicket",
+    @RequestMapping(value = "/validate",
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.PUT)

@@ -16,17 +16,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.validation.Valid;
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-10-14T21:38:57.474Z")
 
-@Api(value = "createTicket", description = "the createTicket API")
+@Api(value = "create", description = "the createTicket API")
 public interface CreateTicketApi {
 
     @ApiOperation(value = "Create a new ticket", nickname = "createTicket", notes = "", response = Ticket.class, tags={ "ticket", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Ticket created successfully", response = Ticket.class),
         @ApiResponse(code = 405, message = "Invalid input") })
-    @RequestMapping(value = "/createTicket",
+    @RequestMapping(value = "/create",
         produces = { "application/json" }, 
         consumes = { "application/json" },
-        method = RequestMethod.GET)
+        method = RequestMethod.POST)
     ResponseEntity<Ticket> createTicket(@ApiParam(value = "Ticket information needed to create a ticket" ,required=true )  @Valid @RequestBody TicketCreation body);
 
 }

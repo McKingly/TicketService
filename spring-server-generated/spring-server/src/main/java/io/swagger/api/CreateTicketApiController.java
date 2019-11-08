@@ -27,7 +27,6 @@ import io.swagger.model.TicketCreation;
 public class CreateTicketApiController implements CreateTicketApi {
 
     private static final Logger log = LoggerFactory.getLogger(CreateTicketApiController.class);
-
     
     private final ObjectMapper objectMapper;
     private final HttpServletRequest request;
