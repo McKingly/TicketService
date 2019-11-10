@@ -5,8 +5,9 @@
  */
 package io.swagger.api;
 
-import io.swagger.model.TicketList;
+import io.swagger.model.TicketStatusResponse;
 import io.swagger.model.TicketStatusRequest;
+
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,14 +20,14 @@ import javax.validation.Valid;
 @Api(value = "checkTicketStatus", description = "the checkTicketStatus API")
 public interface CheckTicketStatusApi {
 
-    @ApiOperation(value = "Returns the status of a ticket", nickname = "checkTicketStatus", notes = "Multiple status values can be provided with comma separated strings", response = TicketList.class, tags={ "ticket", })
+    @ApiOperation(value = "Returns the status of a ticket", nickname = "checkTicketStatus", notes = "Multiple status values can be provided with comma separated strings", response = TicketStatusResponse.class, tags={ "ticket", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Response received.", response = TicketList.class),
+        @ApiResponse(code = 200, message = "Response received.", response = TicketStatusResponse.class),
         @ApiResponse(code = 405, message = "Invalid request")})
-    @RequestMapping(value = "/checkTicketStatus",
+    @RequestMapping(value = "/status",
         produces = { "application/json" },
         consumes = { "application/json" },
-        method = RequestMethod.GET)
-    ResponseEntity<TicketList> checkTicketStatus(@ApiParam(value = "Ticket information" ,required=true )  @Valid @RequestBody TicketStatusRequest body);
+        method = RequestMethod.POST)
+    ResponseEntity<TicketStatusResponse> checkTicketStatus(@ApiParam(value = "Ticket information" ,required=true )  @Valid @RequestBody TicketStatusRequest body);
 
 }

@@ -25,10 +25,12 @@ public class Blockchain {
     Ticket ticket;
     try {
       ticket = new Ticket(new Details(), "invalid", "0", "secret");
+      ticket.ticketId();
       return ticket;
     } catch (NoSuchAlgorithmException | IOException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+      System.out.println(e);
+      //e.printStackTrace();
+
     }
     return null;
   }
@@ -45,8 +47,22 @@ public class Blockchain {
     return chain.getLast();
   }
 
-  public Ticket getBlock(int block_id){
-    return chain.get(block_id);    
+  public Ticket getBlock(int ticketId){
+    for (int i = 1; i < chain.size(); i++){
+      if (chain.get(i).getTicketId() == ticketId){
+        return chain.get(i);
+      }
+    }
+    return null;    
+  }
+
+  public Ticket getBlockReverse(int ticketId){
+    for (int i = chain.size()-1; i > 0; i--){
+      if (chain.get(i).getTicketId() == ticketId){
+        return chain.get(i);
+      }
+    }
+    return null;    
   }
 
   public String toString(){

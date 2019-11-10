@@ -2,13 +2,9 @@ package io.swagger.model;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.model.Ticket;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
-import javax.validation.constraints.*;
 
 /**
  * TicketStatusResponse
@@ -86,8 +82,7 @@ public class TicketStatusRequest {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class TicketStatusResponse {\n");
-    
+    sb.append("{\n");
     sb.append("    secret: ").append(toIndentedString(secret)).append("\n");
     sb.append("    ticket: ").append(toIndentedString(ticket_array.toString())).append("\n");
     sb.append("}");

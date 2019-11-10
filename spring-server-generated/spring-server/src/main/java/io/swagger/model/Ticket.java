@@ -24,6 +24,8 @@ public class Ticket {
 
   private static Integer blockchainId = 0;
 
+  private Integer blockId = null;
+
   @JsonProperty("ticket_id")
   private Integer ticketId = null;
 
@@ -44,7 +46,19 @@ public class Ticket {
 
   public Ticket(Details details, String status, String previousHash, String secret)
       throws NoSuchAlgorithmException, IOException {
-    this.ticketId = blockchainId++;
+    this.blockId = blockchainId++;
+    this.ticketId = this.blockId;
+    this.timestamp = OffsetDateTime.now();
+    this.details = details;
+    this.status = status;
+    this.previousHash = previousHash;
+    this.hash = Auxiliary.computeHash(this.ticketId, this.timestamp.toString(), details, status, previousHash, secret);
+  }
+
+  public Ticket(int ticketId, Details details, String status, String previousHash, String secret)
+      throws NoSuchAlgorithmException, IOException {
+    this.blockId = blockchainId++;
+    this.ticketId = ticketId;
     this.timestamp = OffsetDateTime.now();
     this.details = details;
     this.status = status;
@@ -55,7 +69,12 @@ public class Ticket {
   public Ticket(){}
 
   public Ticket ticketId() {
-    this.ticketId = blockchainId++;
+    this.ticketId = this.blockId;
+    return this;
+  }
+
+  public Ticket ticketId(int ticketId){
+    this.ticketId = ticketId;
     return this;
   }
 
@@ -197,6 +216,7 @@ public class Ticket {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
+    sb.append(" \"Block Id\": \" ").append(toIndentedString(blockId)).append("\"\n,");
     sb.append(" \"ticketId\": \" ").append(toIndentedString(ticketId)).append("\"\n,");
     sb.append(" \"timestamp\": \" ").append(toIndentedString(timestamp)).append("\"\n,");
     sb.append(" \"details\": ").append(toIndentedString(details)).append("\n,");

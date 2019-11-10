@@ -64,7 +64,7 @@ public class ValidateTicketApiController implements ValidateTicketApi {
                     else{
                         System.out.print("Ticket has been validated.");
                         Ticket validatedTicket = new Ticket(ticket.getDetails(),"valid", chain.getLatestBlockHash(),body.getSecret());
-                        chain.addBlock(validatedTicket);
+                        chain.addBlock(validatedTicket.ticketId(ticket.getTicketId()));
                         return new ResponseEntity<Ticket>(validatedTicket, HttpStatus.ACCEPTED);
                     }
                 }

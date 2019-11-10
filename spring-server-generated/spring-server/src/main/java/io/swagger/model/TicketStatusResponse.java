@@ -1,14 +1,13 @@
 package io.swagger.model;
 
 import java.util.Objects;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.model.Ticket;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
-import javax.validation.constraints.*;
 
 /**
  * TicketList
@@ -16,13 +15,13 @@ import javax.validation.constraints.*;
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-10-14T21:38:57.474Z")
 
-public class TicketList   {
+public class TicketStatusResponse   {
 
-  @JsonProperty("tickets")
-  private Details[] ticket_array = null;
+  @JsonProperty("ticket")
+  private List<Details> tickets = new ArrayList<Details>();
 
-  public TicketList ticket_array(Details[] ticket_array) {
-    this.ticket_array = ticket_array;
+  public TicketStatusResponse ticket_array(ArrayList<Details> tickets) {
+    this.tickets = tickets;
     return this;
   }
 
@@ -34,12 +33,12 @@ public class TicketList   {
 
   @Valid
 
-  public Details[] getTicket() {
-    return ticket_array;
+  public List<Details> getTicket() {
+    return tickets;
   }
 
-  public void setTicket(Details[] ticket_array) {
-    this.ticket_array = ticket_array;
+  public void setTicket(List<Details> tickets) {
+    this.tickets = tickets;
   }
 
   @Override
@@ -50,26 +49,25 @@ public class TicketList   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    TicketList ticketList = (TicketList) o;
-    return Objects.equals(this.ticket_array, ticketList.ticket_array);
+    TicketStatusResponse ticketList = (TicketStatusResponse) o;
+    return Objects.equals(this.tickets, ticketList.tickets);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(ticket_array);
+    return Objects.hash(tickets);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    System.out.println("HEADACHE");
-    //sb.append("{\n");
-    /*sb.append("tickets: [").append(toIndentedString(ticket_array)).append("\n");
-    for (Details d : ticket_array){
-      //sb.append(toIndentedString(d)).append("\n");
+    sb.append("{\n");
+    sb.append("tickets: [ \n");
+    for (Details d : tickets){
+      sb.append(d).append("\n");
     }
     sb.append("]}");
-    */
+    //System.out.println(sb);
     return sb.toString();
   }
 

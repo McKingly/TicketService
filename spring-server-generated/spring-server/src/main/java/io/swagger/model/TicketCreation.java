@@ -2,13 +2,10 @@ package io.swagger.model;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.model.Details;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
-import javax.validation.constraints.*;
 
 /**
  * TicketCreation
@@ -22,6 +19,10 @@ public class TicketCreation   {
 
   @JsonProperty("details")
   private Details details = null;
+
+  @JsonProperty("payment")
+  private Details payment = null;
+
 
   public TicketCreation secret(String secret) {
     this.secret = secret;
@@ -64,6 +65,27 @@ public class TicketCreation   {
     this.details = details;
   }
 
+  public TicketCreation payment(Details payment) {
+    this.payment = payment;
+    return this;
+  }
+
+  /**
+   * Get details
+   * @return details
+  **/
+  @ApiModelProperty(value = "")
+
+  @Valid
+
+  public Details getPayment() {
+    return payment;
+  }
+
+  public void setPayment(Details payment) {
+    this.payment = payment;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -75,21 +97,23 @@ public class TicketCreation   {
     }
     TicketCreation ticketCreation = (TicketCreation) o;
     return Objects.equals(this.secret, ticketCreation.secret) &&
-        Objects.equals(this.details, ticketCreation.details);
+        Objects.equals(this.details, ticketCreation.details) &&
+        Objects.equals(this.payment, ticketCreation.payment);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(secret, details);
+    return Objects.hash(secret, details, payment);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class TicketCreation {\n");
+    sb.append("{\n");
     
     sb.append("    secret: ").append(toIndentedString(secret)).append("\n");
     sb.append("    details: ").append(toIndentedString(details)).append("\n");
+    sb.append("    payment: ").append(toIndentedString(payment)).append("\n");
     sb.append("}");
     return sb.toString();
   }
