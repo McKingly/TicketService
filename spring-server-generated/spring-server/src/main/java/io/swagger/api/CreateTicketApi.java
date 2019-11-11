@@ -29,4 +29,15 @@ public interface CreateTicketApi {
         method = RequestMethod.POST)
     ResponseEntity<Ticket> createTicket(@ApiParam(value = "Ticket information needed to create a ticket" ,required=true )  @Valid @RequestBody TicketCreation body);
 
+    @ApiOperation(value = "Create a new ticket", nickname = "createTicket", notes = "", response = String.class, tags={ "ticket", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Ticket created successfully", response = String.class),
+        @ApiResponse(code = 405, message = "Invalid input") })
+    @RequestMapping(value = "/createAuth",
+        produces = { "application/json" }, 
+        consumes = { "application/json" },
+        method = RequestMethod.POST)
+    ResponseEntity<String> createTicketAuth(@ApiParam(value = "Ticket information needed to create a ticket" ,required=true )  @Valid @RequestBody TicketCreation body);
+
+
 }

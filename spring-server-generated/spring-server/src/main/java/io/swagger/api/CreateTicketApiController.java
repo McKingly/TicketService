@@ -53,55 +53,6 @@ public class CreateTicketApiController implements CreateTicketApi {
         String accept = request.getHeader("Accept");
                 
         if (accept != null && accept.contains("application/json")) {
-           /*
-            try {
-                final String url = "http://192.168.85.208/payments/";
-
-                RestTemplate restTemplate = new RestTemplate();
-                
-                HttpHeaders headers = new HttpHeaders();
-                
-                Details payment_body = body.getPayment();
-                
-                headers.setContentType(MediaType.APPLICATION_JSON);
-                headers.add("Authorization", (String) payment_body.get("auth_token"));
-                
-                payment_body.remove("auth_token");
-
-                //System.out.println(payment_body);
-                HttpEntity<Details> request;
-                
-                request = new HttpEntity<>(payment_body, headers);
-     
-                try {
-                    ResponseEntity<PaymentResponse> response = restTemplate.postForEntity(url, request, PaymentResponse.class);
-                    System.out.println(response);
-                    PaymentResponse response_body = response.getBody();
-                    
-                    if(response_body.getCode().equals("201")){
-                        Details request_body = new Details();
-                        request_body.put("reference", payment_body.get("reference"));
-                        request_body.put("amount", 45);
-                        System.out.println(request_body);
-                        request = new HttpEntity<>(request_body, headers);
-                        System.out.println(url+response_body.getMessage().get("id")+"/transactions/");
-                        ResponseEntity<String> response2 = restTemplate.postForEntity(url+response_body.getMessage().get("id")+"/transactions/",
-                         request, String.class);
-                        
-                        System.out.println(response2);
-                    }
-
-                
-                } catch (HttpServerErrorException e) {
-                    System.out.println(e);
-                    return new ResponseEntity<Ticket>(HttpStatus.INTERNAL_SERVER_ERROR);
-                } catch (HttpClientErrorException e) {
-                    System.out.println(e);
-                    return new ResponseEntity<Ticket>(HttpStatus.UNAUTHORIZED);
-                }
-
-            }finally{}
-            */
             try {
                
                 Ticket newTicket = new Ticket(body.getDetails(), "inactive", chain.getLatestBlockHash(), body.getSecret());
@@ -118,5 +69,71 @@ public class CreateTicketApiController implements CreateTicketApi {
             }
         }
         return new ResponseEntity<Ticket>(HttpStatus.NOT_IMPLEMENTED);
+    }
+
+    public ResponseEntity<String> createTicketAuth(
+        @ApiParam(value = "Ticket information needed to create a ticket", required = true) @Valid @RequestBody TicketCreation body) {
+            String accept = request.getHeader("Accept");
+        try {
+            final String url = "http://192.168.85.208/payments/";
+
+            RestTemplate restTemplate = new RestTemplate();
+            
+            HttpHeaders headers = new HttpHeaders();
+            
+            Details payment_body = body.getPayment();
+            
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            headers.add("Authorization", (String) payment_body.get("auth_token"));
+            
+            payment_body.remove("auth_token");
+
+            //System.out.println(payment_body);
+            HttpEntity<Details> request;
+            
+            request = new HttpEntity<>(payment_body, headers);
+            System.out.println("TESTE");
+            try {
+                ResponseEntity<PaymentResponse> response;
+                PaymentResponse response_body;
+                
+                response = restTemplate.postForEntity(url, request, PaymentResponse.class);
+                System.out.println(response);
+                response_body = response.getBody();
+                
+                if(response_body.getCode().equals("201")){
+                    Details request_body = new Details();
+                    request_body.put("reference", payment_body.get("reference"));
+                    request_body.put("amount", 45);
+                    System.out.println(request_body);
+                    request = new HttpEntity<>(request_body, headers);
+                    String payment_id = (String)response_body.getMessage().get("id");
+                    System.out.println(url+payment_id+"/transactions");
+                    response = restTemplate.postForEntity(url+response_body.getMessage().get("id")+"/transactions",
+                     request, PaymentResponse.class);
+                    System.out.println("TESTING");
+                    System.out.println(response);
+
+                    response_body = response.getBody();
+                    if(response_body.getCode().equals("201")){
+                        System.out.println("ZI TESTE");
+                        response = restTemplate.postForEntity(url+payment_id+"/authorize",request, PaymentResponse.class);
+                        return new ResponseEntity<String>((String) response.getBody().getMessage().get("message"), HttpStatus.OK);
+                    }
+
+                }
+
+            
+            } catch (HttpServerErrorException e) {
+                System.out.println(e);
+                return new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+            } catch (HttpClientErrorException e) {
+                System.out.println(e);
+                return new ResponseEntity<String>(HttpStatus.UNAUTHORIZED);
+            }
+            
+        }
+        finally{}
+        return new ResponseEntity<String>(HttpStatus.NOT_IMPLEMENTED);
     }
 }
