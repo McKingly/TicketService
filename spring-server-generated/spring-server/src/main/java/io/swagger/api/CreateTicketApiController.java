@@ -2,6 +2,8 @@ package io.swagger.api;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -26,7 +28,8 @@ import io.swagger.Blockchain;
 import io.swagger.annotations.ApiParam;
 import io.swagger.model.Details;
 import io.swagger.model.Ticket;
-import io.swagger.model.TicketCreation;
+import io.swagger.model.createTicketRequest;
+import io.swagger.model.createTicketResponse;
 import io.swagger.model.PaymentModels.PaymentResponse;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-10-14T21:38:57.474Z")
@@ -48,31 +51,40 @@ public class CreateTicketApiController implements CreateTicketApi {
         this.request = request;
     }
 
-    public ResponseEntity<Ticket> createTicket(
-            @ApiParam(value = "Ticket information needed to create a ticket", required = true) @Valid @RequestBody TicketCreation body) {
+    public ResponseEntity<createTicketResponse> createTicket(
+            @ApiParam(value = "Ticket information needed to create a ticket", required = true) @Valid @RequestBody createTicketRequest body) {
         String accept = request.getHeader("Accept");
                 
         if (accept != null && accept.contains("application/json")) {
             try {
-               
-                Ticket newTicket = new Ticket(body.getDetails(), "inactive", chain.getLatestBlockHash(), body.getSecret());
-                chain.addBlock(newTicket.ticketId());
-                return new ResponseEntity<Ticket>( newTicket, HttpStatus.CREATED);
+                //createTicketResponse response = new createTicketResponse();
+
+                createTicketResponse response = new createTicketResponse();
+
+                for (Details d : body.getDetails()){
+                    System.out.println(d);
+                    Ticket newTicket = new Ticket(d, "inactive", chain.getLatestBlockHash(), body.getSecret());
+                    chain.addBlock(newTicket.ticketId());
+                    response.addTicket(newTicket);
+                }
+
+                System.out.println(response.getTickets());
+                return new ResponseEntity<createTicketResponse>(response, HttpStatus.CREATED);
 
             } catch (IOException e) {
                 log.error("Couldn't serialize response for content type application/json", e);
-                return new ResponseEntity<Ticket>(HttpStatus.INTERNAL_SERVER_ERROR);
+                return new ResponseEntity<createTicketResponse>(HttpStatus.INTERNAL_SERVER_ERROR);
 
             } catch (NoSuchAlgorithmException e) {
                 log.error("Hash generation problem", e);
-                return new ResponseEntity<Ticket>(HttpStatus.INTERNAL_SERVER_ERROR);
+                return new ResponseEntity<createTicketResponse>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
-        return new ResponseEntity<Ticket>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<createTicketResponse>(HttpStatus.NOT_IMPLEMENTED);
     }
 
     public ResponseEntity<String> createTicketAuth(
-        @ApiParam(value = "Ticket information needed to create a ticket", required = true) @Valid @RequestBody TicketCreation body) {
+        @ApiParam(value = "Ticket information needed to create a ticket", required = true) @Valid @RequestBody createTicketRequest body) {
             String accept = request.getHeader("Accept");
         try {
             final String url = "http://192.168.85.208/payments/";

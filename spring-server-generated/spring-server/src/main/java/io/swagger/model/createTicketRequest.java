@@ -1,5 +1,8 @@
 package io.swagger.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
@@ -13,18 +16,18 @@ import javax.validation.Valid;
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-10-14T21:38:57.474Z")
 
-public class TicketCreation   {
+public class createTicketRequest   {
   @JsonProperty("secret")
   private String secret = null;
 
   @JsonProperty("details")
-  private Details details = null;
-
+  private List<Details> details = new ArrayList<Details>();
+  
   @JsonProperty("payment")
   private Details payment = null;
 
 
-  public TicketCreation secret(String secret) {
+  public createTicketRequest secret(String secret) {
     this.secret = secret;
     return this;
   }
@@ -44,7 +47,7 @@ public class TicketCreation   {
     this.secret = secret;
   }
 
-  public TicketCreation details(Details details) {
+  public createTicketRequest details(ArrayList<Details> details) {
     this.details = details;
     return this;
   }
@@ -57,15 +60,15 @@ public class TicketCreation   {
 
   @Valid
 
-  public Details getDetails() {
+  public List<Details>  getDetails() {
     return details;
   }
 
-  public void setDetails(Details details) {
+  public void setDetails(List<Details>  details) {
     this.details = details;
   }
 
-  public TicketCreation payment(Details payment) {
+  public createTicketRequest payment(Details payment) {
     this.payment = payment;
     return this;
   }
@@ -95,10 +98,10 @@ public class TicketCreation   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    TicketCreation ticketCreation = (TicketCreation) o;
-    return Objects.equals(this.secret, ticketCreation.secret) &&
-        Objects.equals(this.details, ticketCreation.details) &&
-        Objects.equals(this.payment, ticketCreation.payment);
+    createTicketRequest request = (createTicketRequest) o;
+    return Objects.equals(this.secret, request.secret) &&
+        Objects.equals(this.details, request.details) &&
+        Objects.equals(this.payment, request.payment);
   }
 
   @Override
@@ -109,7 +112,7 @@ public class TicketCreation   {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("{\n");
+    sb.append("{\n"); 
     
     sb.append("    secret: ").append(toIndentedString(secret)).append("\n");
     sb.append("    details: ").append(toIndentedString(details)).append("\n");

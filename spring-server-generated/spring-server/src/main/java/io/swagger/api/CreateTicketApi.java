@@ -5,8 +5,9 @@
  */
 package io.swagger.api;
 
-import io.swagger.model.Ticket;
-import io.swagger.model.TicketCreation;
+import io.swagger.model.createTicketResponse;
+import io.swagger.model.createTicketRequest;
+
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,17 +20,17 @@ import javax.validation.Valid;
 @Api(value = "create", description = "the createTicket API")
 public interface CreateTicketApi {
 
-    @ApiOperation(value = "Create a new ticket", nickname = "createTicket", notes = "", response = Ticket.class, tags={ "ticket", })
+    @ApiOperation(value = "Create a new ticket", nickname = "createTicket", notes = "", response = createTicketResponse.class, tags={ "ticket", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Ticket created successfully", response = Ticket.class),
+        @ApiResponse(code = 200, message = "Ticket created successfully", response = createTicketResponse.class),
         @ApiResponse(code = 405, message = "Invalid input") })
     @RequestMapping(value = "/create",
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    ResponseEntity<Ticket> createTicket(@ApiParam(value = "Ticket information needed to create a ticket" ,required=true )  @Valid @RequestBody TicketCreation body);
+    ResponseEntity<createTicketResponse> createTicket(@ApiParam(value = "Ticket information needed to create a ticket" ,required=true )  @Valid @RequestBody createTicketRequest body);
 
-    @ApiOperation(value = "Create a new ticket", nickname = "createTicket", notes = "", response = String.class, tags={ "ticket", })
+    @ApiOperation(value = "Create a new ticket", nickname = "crecreateTicketResponseateTicket", notes = "", response = String.class, tags={ "ticket", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Ticket created successfully", response = String.class),
         @ApiResponse(code = 405, message = "Invalid input") })
@@ -37,7 +38,7 @@ public interface CreateTicketApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    ResponseEntity<String> createTicketAuth(@ApiParam(value = "Ticket information needed to create a ticket" ,required=true )  @Valid @RequestBody TicketCreation body);
+    ResponseEntity<String> createTicketAuth(@ApiParam(value = "Ticket information needed to create a ticket" ,required=true )  @Valid @RequestBody createTicketRequest body);
 
 
 }
