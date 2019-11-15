@@ -5,8 +5,10 @@
  */
 package io.swagger.api;
 
-import io.swagger.model.createTicketResponse;
 import io.swagger.model.createTicketRequest;
+import io.swagger.model.createTicketResponse;
+
+import io.swagger.model.createTicketAuthResponse;
 
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
@@ -30,15 +32,15 @@ public interface CreateTicketApi {
         method = RequestMethod.POST)
     ResponseEntity<createTicketResponse> createTicket(@ApiParam(value = "Ticket information needed to create a ticket" ,required=true )  @Valid @RequestBody createTicketRequest body);
 
-    @ApiOperation(value = "Create a new ticket", nickname = "crecreateTicketResponseateTicket", notes = "", response = String.class, tags={ "ticket", })
+    @ApiOperation(value = "Create a new ticket", nickname = "crecreateTicketResponseateTicket", notes = "", response = createTicketAuthResponse.class, tags={ "ticket", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Ticket created successfully", response = String.class),
+        @ApiResponse(code = 200, message = "Ticket created successfully", response = createTicketAuthResponse.class),
         @ApiResponse(code = 405, message = "Invalid input") })
     @RequestMapping(value = "/createAuth",
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    ResponseEntity<String> createTicketAuth(@ApiParam(value = "Ticket information needed to create a ticket" ,required=true )  @Valid @RequestBody createTicketRequest body);
+    ResponseEntity<createTicketAuthResponse> createTicketAuth(@ApiParam(value = "Ticket information needed to create a ticket" ,required=true )  @Valid @RequestBody createTicketRequest body);
 
 
 }
