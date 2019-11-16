@@ -49,4 +49,7 @@ public class Auxiliary {
       return hexString.toString();
   }
   
+  public static int difOffsetDateTime(org.threeten.bp.OffsetDateTime start, org.threeten.bp.OffsetDateTime end){
+    return start.compareTo(end);
+  }
 }

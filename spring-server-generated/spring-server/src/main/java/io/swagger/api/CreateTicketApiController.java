@@ -70,26 +70,26 @@ public class CreateTicketApiController implements CreateTicketApi {
                     
                 HttpEntity entity = new HttpEntity<>(headers);
                 
-                /*  
+                  
                 ResponseEntity<PaymentResponse> response;
                 response = restTemplate.exchange(url+5, HttpMethod.GET, entity, PaymentResponse.class);
 
                 PaymentResponse responseBody = response.getBody();
-                */
+                
 
                 /*
                 Details paymentData = new Details();
                 paymentData.put("reference", value);
                 paymentData.put("amount", 45);*/
 
-                /*
+                
                 if(Integer.parseInt(responseBody.getCode()) == 201){
                     response = restTemplate.postForEntity(url+5+"/execute", request, PaymentResponse.class);
                     
                     responseBody = response.getBody();
                     if(Integer.parseInt(responseBody.getCode()) == 201){
+                
                         
-                        */ 
                         createTicketResponse responseList = new createTicketResponse();
                         
                         //Creating tickets based on the details parameter 
@@ -106,9 +106,9 @@ public class CreateTicketApiController implements CreateTicketApi {
                         }
 
                         return new ResponseEntity<createTicketResponse>(responseList, HttpStatus.CREATED);
-                    //}
+                    }
             
-                //}
+                }
 
             } catch (IOException e) {
                 log.error("Couldn't serialize response for content type application/json", e);

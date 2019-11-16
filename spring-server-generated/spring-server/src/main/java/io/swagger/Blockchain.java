@@ -2,6 +2,7 @@ package io.swagger;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+
 import java.util.LinkedList;
 
 import org.springframework.stereotype.Component;
