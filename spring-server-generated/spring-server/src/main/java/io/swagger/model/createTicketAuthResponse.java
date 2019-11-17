@@ -18,7 +18,7 @@ public class createTicketAuthResponse  {
   private String url = null;
 
   @JsonProperty("paymentId")
-  private Integer paymentId = null;
+  private String paymentId = null;
   
   public createTicketAuthResponse url(String url) {
     this.url = url;
@@ -41,7 +41,7 @@ public class createTicketAuthResponse  {
     this.url = url;
   }
 
-  public createTicketAuthResponse paymentId(Integer paymentId) {
+  public createTicketAuthResponse paymentId(String paymentId) {
     this.paymentId = paymentId;
     return this;
   }
@@ -54,11 +54,11 @@ public class createTicketAuthResponse  {
 
   @Valid
 
-  public int getPaymentId() {
+  public String getPaymentId() {
     return paymentId;
   }
 
-  public void setPaymentId(int paymentId) {
+  public void setPaymentId(String paymentId) {
     this.paymentId = paymentId;
   }
 
