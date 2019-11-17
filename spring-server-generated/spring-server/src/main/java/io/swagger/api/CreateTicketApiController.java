@@ -53,10 +53,13 @@ public class CreateTicketApiController implements CreateTicketApi {
         @ApiParam(value = "Ticket information needed to create a ticket", required = true) @Valid @RequestBody createTicketRequest body) {
         
         String accept = request.getHeader("Accept");
-        String authToken = request.getHeader("auth_token");
+        String authToken = request.getHeader("AuthToken");
+
+        log.info("Pre-conditions being tested.");
 
         if (accept != null && accept.contains("application/json") && authToken != null) {
             try {
+                log.info("Header conditions accepted.");
                 // Creates a payment associated with a seller 
                 PaymentResponse response = PaymentMethods.createPayment(authToken);
 
@@ -92,7 +95,7 @@ public class CreateTicketApiController implements CreateTicketApi {
             @ApiParam(value = "Ticket information needed to create a ticket", required = true) @Valid @RequestBody createTicketRequest body) {
         
         String accept = request.getHeader("Accept");
-        String authToken = request.getHeader("auth_token");
+        String authToken = request.getHeader("AuthToken");
 
         if (accept != null && accept.contains("application/json") && authToken != null) {
             try {
