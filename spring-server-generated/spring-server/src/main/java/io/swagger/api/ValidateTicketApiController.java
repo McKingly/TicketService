@@ -50,18 +50,27 @@ public class ValidateTicketApiController implements ValidateTicketApi {
     }
 
     public ResponseEntity<Ticket> validateTicket(@ApiParam(value = "Information needed to create a ticket" ,required=true )  @Valid @RequestBody ApiRequest body) {
+        
+        log.info("URL: "+ request.getRequestURI());
+        
         String accept = request.getHeader("Accept");
 
         if (accept != null && accept.contains("application/json")) {
+            log.info("Header conditions accepted.");
 
             Ticket ticket = body.getTicket();
             
+            log.info(ticket.toString());
+
             try {
                 objectMapper.configure(DeserializationFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE, false);
+            
+                log.info("Trying to generate hash.");    
                 String hash = Auxiliary.computeHash(ticket.getTicketId(), ticket.getTimestamp().toString(), ticket.getDetails(), 
                     ticket.getStatus(), ticket.getPreviousHash(), body.getSecret());
                 
                 // Checks to see if the 
+                log.info("Checking to see if the hash exists.");    
                 if(hash.equals(ticket.getHash())){
                     log.info("Ticket is real.");
 

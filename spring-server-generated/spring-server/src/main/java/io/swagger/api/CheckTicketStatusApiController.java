@@ -43,6 +43,9 @@ public class CheckTicketStatusApiController implements CheckTicketStatusApi {
 
     public ResponseEntity<TicketStatusResponse> checkTicketStatus(
         @ApiParam(value = "Ticket information" ,required=true )  @Valid @RequestBody TicketStatusRequest body) {
+
+        log.info("URL: "+ request.getRequestURI());
+
         String accept = request.getHeader("Accept");
         ArrayList<Details> ticket_list = new ArrayList<Details>();
         if (accept != null && accept.contains("application/json")) {

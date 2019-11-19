@@ -52,6 +52,8 @@ public class CreateTicketApiController implements CreateTicketApi {
     public ResponseEntity<createTicketAuthResponse> createTicketAuth(
         @ApiParam(value = "Ticket information needed to create a ticket", required = true) @Valid @RequestBody createTicketRequest body) {
         
+        log.info("URL: "+ request.getRequestURI());
+
         String accept = request.getHeader("Accept");
         String authToken = request.getHeader("AuthToken");
 
