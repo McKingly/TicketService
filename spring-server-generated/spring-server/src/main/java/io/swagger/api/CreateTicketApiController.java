@@ -95,12 +95,13 @@ public class CreateTicketApiController implements CreateTicketApi {
             @ApiParam(value = "Ticket information needed to create a ticket", required = true) @Valid @RequestBody createTicketRequest body) {
         
         String accept = request.getHeader("Accept");
-        String authToken = request.getHeader("AuthToken");
+        String authToken = request.getHeader("AuthToken");        
+        String paymentId = request.getHeader("paymentId");
 
-        if (accept != null && accept.contains("application/json") && authToken != null) {
+        if (accept != null && accept.contains("application/json") && authToken != null && paymentId != null) {
             try {
                 PaymentResponse response;
-                //PaymentResponse response = PaymentMethods.confirmAuthorization(authToken, "4");
+                //PaymentResponse response = PaymentMethods.confirmAuthorization(authToken, paymen);
                 
                 //if(response.getCode().equals("201")){
                     
