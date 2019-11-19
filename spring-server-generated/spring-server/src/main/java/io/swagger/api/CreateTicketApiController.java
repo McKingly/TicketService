@@ -105,9 +105,9 @@ public class CreateTicketApiController implements CreateTicketApi {
                 
                 //if(response.getCode().equals("201")){
                     
-                    response = PaymentMethods.executePayment(authToken, "4");
+                    //response = PaymentMethods.executePayment(authToken, "4");
                     
-                    if(response.getCode().equals("201")){
+                    //if(response.getCode().equals("201")){
                         
                         createTicketResponse responseList = new createTicketResponse();
                         
@@ -125,7 +125,7 @@ public class CreateTicketApiController implements CreateTicketApi {
                         }
 
                         return new ResponseEntity<createTicketResponse>(responseList, HttpStatus.CREATED);
-                    }
+                    //}
             
                 //}
 
