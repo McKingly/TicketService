@@ -46,6 +46,8 @@ public class CheckTicketStatusApiController implements CheckTicketStatusApi {
 
         log.info("URL: "+ request.getRequestURI());
 
+        log.info(body.toString());
+
         String accept = request.getHeader("Accept");
         ArrayList<Details> ticket_list = new ArrayList<Details>();
         if (accept != null && accept.contains("application/json")) {

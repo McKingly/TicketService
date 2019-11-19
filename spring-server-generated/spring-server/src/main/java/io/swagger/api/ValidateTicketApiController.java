@@ -52,6 +52,7 @@ public class ValidateTicketApiController implements ValidateTicketApi {
     public ResponseEntity<Ticket> validateTicket(@ApiParam(value = "Information needed to create a ticket" ,required=true )  @Valid @RequestBody ApiRequest body) {
         
         log.info("URL: "+ request.getRequestURI());
+        log.info(body.toString());
         
         String accept = request.getHeader("Accept");
 
