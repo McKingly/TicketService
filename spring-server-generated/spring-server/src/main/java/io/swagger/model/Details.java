@@ -32,11 +32,12 @@ public class Details extends HashMap<String, Object>  {
   
   @Override
   public String toString() {
-    StringBuilder sb = new StringBuilder();
+    return super.toString();
+    /* StringBuilder sb = new StringBuilder();
     sb.append("{\n");
     sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("}");
-    return sb.toString();
+    return sb.toString(); */
   }
 
   /**

@@ -96,9 +96,15 @@ public class CreateTicketApiController implements CreateTicketApi {
     public ResponseEntity<createTicketResponse> createTicket(
             @ApiParam(value = "Ticket information needed to create a ticket", required = true) @Valid @RequestBody createTicketRequest body) {
         
+        log.info("URL: "+ request.getRequestURI());
+
+        log.info("Message Body: \n"+body.toString());
+        
         String accept = request.getHeader("Accept");
         String authToken = request.getHeader("AuthToken");        
         String paymentId = request.getHeader("paymentId");
+        
+        log.info("Pre-conditions being tested.");
 
         if (accept != null && accept.contains("application/json") && authToken != null && paymentId != null) {
             try {

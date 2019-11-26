@@ -82,10 +82,13 @@ public class TicketStatusRequest {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("{\n");
+    sb.append("\n{\n");
     sb.append("    secret: ").append(toIndentedString(secret)).append("\n");
-    sb.append("    ticket: ").append(toIndentedString(ticket_array.toString())).append("\n");
-    sb.append("}");
+    sb.append("    ticket: [\n");
+    for( Details ticket : ticket_array) {
+      sb.append("\t\t"+toIndentedString(ticket)).append("\n");
+    }
+    sb.append("    ]\n}");
     return sb.toString();
   }
 
