@@ -6,7 +6,7 @@
 package io.swagger.api;
 
 import io.swagger.model.ApiRequest;
-import io.swagger.model.Ticket;
+import io.swagger.model.ValidateTicketResponse;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,17 +19,17 @@ import javax.validation.Valid;
 @Api(value = "validateTicket", description = "the validateTicket API")
 public interface ValidateTicketApi {
 
-    @ApiOperation(value = "Checks to see if ticket is valid", nickname = "validateTicket", notes = "Multiple status values can be provided with comma separated strings", response = Ticket.class, tags={ "ticket", })
+    @ApiOperation(value = "Checks to see if ticket is valid", nickname = "validateTicket", notes = "Multiple status values can be provided with comma separated strings", response = ValidateTicketResponse.class, tags={ "ticket", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Ticket validated successfully", response = Ticket.class),
-        @ApiResponse(code = 201, message = "Ticket is valid"),
-        @ApiResponse(code = 400, message = "Invalid request"),
-        @ApiResponse(code = 404, message = "Invaled ticket"),
-        @ApiResponse(code = 405, message = "Ticket expired") })
+        @ApiResponse(code = 200, message = "Ticket is valid", response = ValidateTicketResponse.class),
+        @ApiResponse(code = 201, message = "Ticket validated successfully", response = ValidateTicketResponse.class),
+        @ApiResponse(code = 405, message = "Ticket expired", response = ValidateTicketResponse.class),
+        @ApiResponse(code = 400, message = "Invalid request", response = ValidateTicketResponse.class),
+        @ApiResponse(code = 404, message = "Invaled ticket", response = ValidateTicketResponse.class)})
     @RequestMapping(value = "/validate",
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.PUT)
-    ResponseEntity<Ticket> validateTicket(@ApiParam(value = "Information needed to create a ticket" ,required=true )  @Valid @RequestBody ApiRequest body);
+    ResponseEntity<ValidateTicketResponse> validateTicket(@ApiParam(value = "Information needed to create a ticket" ,required=true )  @Valid @RequestBody ApiRequest body);
 
 }

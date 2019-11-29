@@ -22,25 +22,29 @@ import javax.validation.Valid;
 @Api(value = "create", description = "the createTicket API")
 public interface CreateTicketApi {
 
+    @ApiOperation(value = "Pay for new ticket", nickname = "createTicketAuth", notes = "", response = createTicketAuthResponse.class, tags={ "ticket", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Ticket created successfully", response = createTicketAuthResponse.class),
+        @ApiResponse(code = 400, message = "Invalid input"),
+        @ApiResponse(code = 401, message = "Unauthorized access to account"),
+        @ApiResponse(code = 500, message = "Internal server error") })
+    @RequestMapping(value = "/createAuth",
+        produces = { "application/json" }, 
+        consumes = { "application/json" },
+        method = RequestMethod.POST)
+    ResponseEntity<createTicketAuthResponse> createTicketAuth(@ApiParam(value = "Ticket information needed to create a ticket" ,required=true )  @Valid @RequestBody createTicketRequest body);
+    
     @ApiOperation(value = "Create a new ticket", nickname = "createTicket", notes = "", response = createTicketResponse.class, tags={ "ticket", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Ticket created successfully", response = createTicketResponse.class),
-        @ApiResponse(code = 405, message = "Invalid input") })
+        @ApiResponse(code = 201, message = "Confirm identity", response = createTicketResponse.class),
+        @ApiResponse(code = 400, message = "Invalid input"),
+        @ApiResponse(code = 500, message = "Internal server error") })
     @RequestMapping(value = "/create",
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
     ResponseEntity<createTicketResponse> createTicket(@ApiParam(value = "Ticket information needed to create a ticket" ,required=true )  @Valid @RequestBody createTicketRequest body);
 
-    @ApiOperation(value = "Create a new ticket", nickname = "crecreateTicketResponseateTicket", notes = "", response = createTicketAuthResponse.class, tags={ "ticket", })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Ticket created successfully", response = createTicketAuthResponse.class),
-        @ApiResponse(code = 405, message = "Invalid input") })
-    @RequestMapping(value = "/createAuth",
-        produces = { "application/json" }, 
-        consumes = { "application/json" },
-        method = RequestMethod.POST)
-    ResponseEntity<createTicketAuthResponse> createTicketAuth(@ApiParam(value = "Ticket information needed to create a ticket" ,required=true )  @Valid @RequestBody createTicketRequest body);
 
 
 }

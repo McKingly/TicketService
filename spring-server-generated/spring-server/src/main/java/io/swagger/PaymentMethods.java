@@ -31,7 +31,7 @@ public class PaymentMethods {
 
   private static int tmp = 0; 
 
-  public static PaymentResponse createPayment(String authToken) throws Exception{
+  public static PaymentResponse createPayment(String authToken, String sellerName) throws Exception{
     //Constructing the headers of the request
     headers = new HttpHeaders(); 
     headers.setContentType(MediaType.APPLICATION_JSON);
@@ -41,9 +41,21 @@ public class PaymentMethods {
     Details requestBody = new Details();
     
     requestBody.put("request_id", Integer.toString(tmp++));
-    requestBody.put("seller_id", PaymentMethods.getSellerId("CP")); // CP
-    //requestBody.put("seller_id", Auxiliary.getSellerId("Transdev")); // Transdev
-    //requestBody.put("seller_id", Auxiliary.getSellerId("metro")); // Metro
+
+    switch(sellerName){
+      case("CP"):
+        requestBody.put("seller_id", PaymentMethods.getSellerId("CP")); // CP
+        break;
+      case("Transdev"):
+        requestBody.put("seller_id", PaymentMethods.getSellerId("Transdev")); // Transdev
+        break;
+      case("metro"):
+        requestBody.put("seller_id", PaymentMethods.getSellerId("metro")); // Transdev
+        break;
+      default:
+        requestBody.put("seller_id", PaymentMethods.getSellerId("Transdev")); // Transdev
+    }
+
     requestBody.put("reference", "Travel ticket");
     requestBody.put("currency", "EUR");
         
@@ -145,8 +157,8 @@ public class PaymentMethods {
     request = new HttpEntity<>(headers);
 
     log.info("POST request: " + url+paymentId+"/execute");
-    //response = restTemplate.postForEntity(url+paymentId+"/execute", request, PaymentResponse.class);
-    response = restTemplate.postForEntity(url+"30a9de2a-16e4-49bc-a1c7-5e4afdf407a2"+"/execute", request, PaymentResponse.class);
+    response = restTemplate.postForEntity(url+paymentId+"/execute", request, PaymentResponse.class);
+    //response = restTemplate.postForEntity(url+"30a9de2a-16e4-49bc-a1c7-5e4afdf407a2"+"/execute", request, PaymentResponse.class);
     responseBody = response.getBody();
     log.info("Response received with code : " + responseBody.getCode());
 

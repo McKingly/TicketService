@@ -63,30 +63,48 @@ public class CreateTicketApiController implements CreateTicketApi {
             try {
                 log.info("Header conditions accepted.");
                 // Creates a payment associated with a seller 
-                PaymentResponse response = PaymentMethods.createPayment(authToken);
+
+                PaymentResponse response;
+
+                try{
+                    response = PaymentMethods.createPayment(authToken,"CP");
+                }
+                catch(NullPointerException e){
+                    response = PaymentMethods.createPayment(authToken,"transdev");
+                }
+
 
                 if(response.getCode().equals("201")){
 
                     String paymentId = (String)response.getMessage().get("id");
 
-                    for (int i = 0; i < body.getDetails().size(); i++){
-                        response = PaymentMethods.addTransactionToPayment(authToken,5,null,paymentId);
-                        if(!response.getCode().equals("201")) 
-                            throw new HttpServerErrorException(null, "Couldn't create a transaction.");
+                    for (Details d : body.getDetails()){
+                        try {
+                            response = PaymentMethods.addTransactionToPayment(authToken,(int) d.get("price"),null,paymentId);
+                        } catch (NullPointerException e) {
+                            response = PaymentMethods.addTransactionToPayment(authToken,3,null,paymentId);
+                        }
+                        finally{
+                            if(!response.getCode().equals("201")) 
+                                throw new HttpServerErrorException(null, "Couldn't create a transaction.");
+                        }
+
                     }
-                    // Send response 
                     
                     return new ResponseEntity<createTicketAuthResponse>(PaymentMethods.requestAuth(authToken,5,null,paymentId), HttpStatus.OK);
                 }
+                else{
+                    throw new HttpServerErrorException(null);
+                } 
 
-            } catch (HttpServerErrorException e) {
-                System.out.println(e);
-                return new ResponseEntity<createTicketAuthResponse>(HttpStatus.INTERNAL_SERVER_ERROR);
-            } catch (HttpClientErrorException e) {
-                System.out.println(e);
+            }catch (HttpClientErrorException e) {
+                log.error("Credentials provided by client aren't authorized: ",  e);
                 return new ResponseEntity<createTicketAuthResponse>(HttpStatus.UNAUTHORIZED);
+            } catch (HttpServerErrorException e) {
+                log.error("Error ocurred: ",  e);
+                return new ResponseEntity<createTicketAuthResponse>(HttpStatus.INTERNAL_SERVER_ERROR); 
             } catch (Exception e) {
-                System.out.println(e);
+                log.error("Error ocurred: ",  e);
                 return new ResponseEntity<createTicketAuthResponse>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
@@ -109,48 +127,37 @@ public class CreateTicketApiController implements CreateTicketApi {
         if (accept != null && accept.contains("application/json") && authToken != null && paymentId != null) {
             try {
                 PaymentResponse response;
-                //PaymentResponse response = PaymentMethods.confirmAuthorization(authToken, paymen);
+                    
+                response = PaymentMethods.executePayment(authToken, paymentId);
                 
-                //if(response.getCode().equals("201")){
+                if(response.getCode().equals("200")){
                     
-                    //response = PaymentMethods.executePayment(authToken, "4");
+                    createTicketResponse responseList = new createTicketResponse();
                     
-                    //if(response.getCode().equals("201")){
+                    //Creating tickets based on the details parameter 
+                    
+                    for (Details d : body.getDetails()){
+                        //Creating new ticket 
+                        Ticket newTicket = new Ticket(d, "inactive", chain.getLatestBlockHash(), body.getSecret());
                         
-                        createTicketResponse responseList = new createTicketResponse();
-                        
-                        //Creating tickets based on the details parameter 
-                        
-                        for (Details d : body.getDetails()){
-                            //Creating new ticket 
-                            Ticket newTicket = new Ticket(d, "inactive", chain.getLatestBlockHash(), body.getSecret());
-                            
-                            //Adding them to the blockchain
-                            chain.addBlock(newTicket.ticketId());
+                        //Adding them to the blockchain
+                        chain.addBlock(newTicket.ticketId());
 
-                            //Adding them to the response
-                            responseList.addTicket(newTicket);
-                        }
+                        //Adding them to the response
+                        responseList.addTicket(newTicket);
+                    }
 
-                        return new ResponseEntity<createTicketResponse>(responseList, HttpStatus.CREATED);
-                    //}
-            
-                //}
+                    return new ResponseEntity<createTicketResponse>(responseList, HttpStatus.CREATED);
+                }
 
-            } catch (IOException e) {
-                log.error("Couldn't serialize response for content type application/json", e);
-                return new ResponseEntity<createTicketResponse>(HttpStatus.INTERNAL_SERVER_ERROR);
-
-            } catch (NoSuchAlgorithmException e) {
-                log.error("Hash generation problem", e);
-                return new ResponseEntity<createTicketResponse>(HttpStatus.INTERNAL_SERVER_ERROR);
-            
+            } catch (NullPointerException e){
+                log.error("Bad request: ", e);
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             } catch (Exception e) {
-                log.error("", e);
-                e.printStackTrace();
-                return new ResponseEntity<createTicketResponse>(HttpStatus.INTERNAL_SERVER_ERROR);
+                log.error("Error ocurred: " , e);
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
-        return new ResponseEntity<createTicketResponse>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
     }
 }
