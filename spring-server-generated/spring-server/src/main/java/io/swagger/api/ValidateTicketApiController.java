@@ -24,7 +24,7 @@ import io.swagger.Blockchain;
 import io.swagger.InvalidTicketException;
 
 import io.swagger.annotations.ApiParam;
-
+import io.swagger.configuration.Properties;
 import io.swagger.model.Ticket;
 import io.swagger.model.ValidateTicketResponse;
 import io.swagger.model.ApiRequest;
@@ -93,14 +93,14 @@ public class ValidateTicketApiController implements ValidateTicketApi {
                     else if(block.getStatus().equalsIgnoreCase("valid")){
                         // If ticket has already been validated
                         // Check to see if it has expired
-                        if( Auxiliary.difOffsetDateTime(block.getTimestamp(), org.threeten.bp.OffsetDateTime.now()) < 0){
+                        if( Auxiliary.difOffsetDateTime(block.getTimestamp(), org.threeten.bp.OffsetDateTime.now()) > Properties.TTL_TICKET){
                             log.error("Ticket has expired");
                             
                             //Adding new block to the blockchain
                             Ticket expiredTicket = new Ticket(ticket.getDetails(),"expired", chain.getLatestBlockHash(),body.getSecret());
                             chain.addBlock(expiredTicket.ticketId(ticket.getTicketId()));
 
-                            response = response.message("Ticket has expired");
+                            response = response.message("Expired");
 
                             return new ResponseEntity<ValidateTicketResponse>(response, HttpStatus.OK);
                         }
@@ -108,7 +108,7 @@ public class ValidateTicketApiController implements ValidateTicketApi {
                         else {
                             log.info("Ticket has already been validated.");
 
-                            response = response.message("Ticket has already been validated.");
+                            response = response.message("Valid");
 
                             return new ResponseEntity<ValidateTicketResponse>(response, HttpStatus.OK);
                         }
@@ -119,7 +119,7 @@ public class ValidateTicketApiController implements ValidateTicketApi {
                         Ticket validatedTicket = new Ticket(ticket.getDetails(),"valid", chain.getLatestBlockHash(),body.getSecret());
                         chain.addBlock(validatedTicket.ticketId(ticket.getTicketId()));
 
-                        response = response.message("Ticket was validated");
+                        response = response.message("Valid");
 
                         return new ResponseEntity<ValidateTicketResponse>(response, HttpStatus.CREATED);
                     }
