@@ -51,29 +51,37 @@ public class CheckTicketStatusApiController implements CheckTicketStatusApi {
         String accept = request.getHeader("Accept");
         ArrayList<Details> ticket_list = new ArrayList<Details>();
         if (accept != null && accept.contains("application/json")) {
-            for (Details ticket : body.getTicketArray()){
-                if(ticket.get("id")==null || ticket.get("hash")==null){
-                    return new ResponseEntity<TicketStatusResponse>(HttpStatus.BAD_REQUEST);
-                }
-                else{
-                    
-                    Ticket block = chain.getBlock((Integer)ticket.get("id"));
-                    if (ticket.get("hash").equals(block.getHash())){
+            try {
+                    for (Details ticket : body.getTicketArray()){
 
-                        block = chain.getBlockReverse((Integer)ticket.get("id"));    
+                        log.info("Ticket:\n >",ticket);
+                        Ticket block = chain.getBlock((Integer)ticket.get("id"));
 
-                        Details d = new Details();
-                        d.put("id", ticket.get("id"));
-                        d.put("status", block.getStatus());
-                        ticket_list.add(d);
-                    } 
-                }
+                        log.info("Block:\n >",block);
+
+                        if (ticket.get("hash").equals(block.getHash())){
+                            
+                            block = chain.getBlockReverse((Integer)ticket.get("id"));    
+                            
+                            Details d = new Details();
+                            d.put("id", ticket.get("id"));
+                            d.put("status", block.getStatus());
+                            ticket_list.add(d);
+                        } 
+                    }
+                
+                TicketStatusResponse ticketList = new TicketStatusResponse();
+                ticketList.setTicket(ticket_list);
+                
+                return new ResponseEntity<TicketStatusResponse>(ticketList, HttpStatus.OK);
+
+            }catch(NullPointerException e){
+                log.error("Bad request: ", body.toString());
+                return new ResponseEntity<TicketStatusResponse>(HttpStatus.BAD_REQUEST);
+            }catch (Exception e) {
+                log.error("Internal Server Error: ", body.toString());
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
-
-            TicketStatusResponse ticketList = new TicketStatusResponse();
-            ticketList.setTicket(ticket_list);
-            
-            return new ResponseEntity<TicketStatusResponse>(ticketList, HttpStatus.OK);
         }
         return new ResponseEntity<TicketStatusResponse>(HttpStatus.NOT_IMPLEMENTED);
     }

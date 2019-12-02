@@ -84,7 +84,7 @@ public class TicketStatusRequest {
     StringBuilder sb = new StringBuilder();
     sb.append("\n{\n");
     sb.append("    secret: ").append(toIndentedString(secret)).append("\n");
-    sb.append("    ticket: [\n");
+    sb.append("    tickets: [\n");
     for( Details ticket : ticket_array) {
       sb.append("\t\t"+toIndentedString(ticket)).append("\n");
     }
