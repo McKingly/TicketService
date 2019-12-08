@@ -50,6 +50,6 @@ public class Auxiliary {
   }
   
   public static int difOffsetDateTime(org.threeten.bp.OffsetDateTime start, org.threeten.bp.OffsetDateTime end){
-    return start.compareTo(end);
+    return end.compareTo(start);
   }
 }
