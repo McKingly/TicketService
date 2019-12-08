@@ -93,6 +93,7 @@ public class ValidateTicketApiController implements ValidateTicketApi {
                     else if(block.getStatus().equalsIgnoreCase("valid")){
                         // If ticket has already been validated
                         // Check to see if it has expired
+                        log.info("Time difference ticket > " + Auxiliary.difOffsetDateTime(block.getTimestamp(), org.threeten.bp.OffsetDateTime.now()));
                         if( Auxiliary.difOffsetDateTime(block.getTimestamp(), org.threeten.bp.OffsetDateTime.now()) > Properties.TTL_TICKET){
                             log.error("Ticket has expired");
                             

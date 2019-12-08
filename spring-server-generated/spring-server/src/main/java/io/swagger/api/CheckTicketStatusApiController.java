@@ -57,7 +57,7 @@ public class CheckTicketStatusApiController implements CheckTicketStatusApi {
                         log.info("Ticket:\n >",ticket);
                         Ticket block = chain.getBlock((Integer)ticket.get("id"));
 
-                        log.info("Block:\n >",block);
+                        log.info("Block:\n >",block.toString());
 
                         if (ticket.get("hash").equals(block.getHash())){
                             
